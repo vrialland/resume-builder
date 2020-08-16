@@ -1,12 +1,23 @@
+import os
+
 from starlette.applications import Starlette
 from starlette.exceptions import HTTPException
+from starlette.routing import Mount
+from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
-from resume_builder.config import DEBUG, TEMPLATES_PATH
+from resume_builder.config import DEBUG, RESUMES_PATH, TEMPLATES_PATH
 from resume_builder.exceptions import ResumeDoesNotExist, ResumeInvalidYaml
 from resume_builder.utils import load_resume, template_exists
 
-app = Starlette(debug=DEBUG)
+routes = [
+    Mount("/static/resumes", app=StaticFiles(directory=RESUMES_PATH), name="resumes"),
+    Mount(
+        "/static/templates", app=StaticFiles(directory=TEMPLATES_PATH), name="templates"
+    ),
+]
+
+app = Starlette(routes=routes, debug=DEBUG)
 templates = Jinja2Templates(directory=TEMPLATES_PATH)
 
 
@@ -25,6 +36,9 @@ def view_resume(request):
         raise HTTPException(500, "Missing template")
     if not template_exists(template):
         raise HTTPException(400, "Template not found")
+    picture = context.pop("picture", None)
+    if picture:
+        context["picture"] = os.path.join("/", resume, picture)
     context["request"] = request
     return templates.TemplateResponse(f"{template}/index.html", context)
 

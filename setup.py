@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/vrialland/resume-builder",
     packages=setuptools.find_packages(),
-    install_requires=["jinja2", "starlette", "pyyaml",],
+    install_requires=["aiofiles", "jinja2", "starlette", "pyyaml",],
     extras_require={"server": ["uvicorn"], "tests": ["black", "pytest",]},
     classifiers=[
         "Programming Language :: Python :: 3",

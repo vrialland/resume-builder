@@ -1,3 +1,4 @@
+import base64
 import logging
 import os
 import yaml
@@ -24,6 +25,10 @@ def get_resumes():
 
 def get_resume_path(name):
     return f"{RESUMES_PATH}/{name}/data.yml"
+
+
+def get_resume_picture_path(name, picture):
+    return f"{RESUMES_PATH}/{name}/{picture}"
 
 
 def resume_exists(name):
