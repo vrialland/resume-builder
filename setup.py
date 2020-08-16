@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/vrialland/resume-builder",
     packages=setuptools.find_packages(),
     install_requires=["jinja2", "starlette", "pyyaml",],
-    extras_require={"tests": ["black", "pytest",]},
+    extras_require={"server": ["uvicorn"], "tests": ["black", "pytest",]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
